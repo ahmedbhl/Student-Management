@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<security:http auto-config="true"> 
+		<security:intercept-url pattern="/admins" access="ROLE_ADMIN"/>
+		<security:intercept-url pattern="/admins/" access="ROLE_ADMIN"/>
+		<security:intercept-url pattern="/admins/**" access="ROLE_ADMIN"/>
+		<security:intercept-url pattern="/classes/" access="ROLE_ADMIN"/>
+		<security:intercept-url pattern="/classes/**" access="ROLE_ADMIN"/>
+		<security:intercept-url pattern="/etudiants/" access="ROLE_ADMIN"/>
+		<security:intercept-url pattern="/etudiants/**" access="ROLE_ADMIN"/>
+		<security:intercept-url pattern="/niveau/" access="ROLE_ADMIN"/>
+		<security:intercept-url pattern="/niveau/**" access="ROLE_ADMIN"/>
+		<security:intercept-url pattern="/parcours/" access="ROLE_ADMIN"/>
+		<security:intercept-url pattern="/parcours/**" access="ROLE_ADMIN"/>
+		<security:intercept-url pattern="/home/" access="ROLE_ADMIN"/>
+		<security:intercept-url pattern="/home/**" access="ROLE_ADMIN"/>
+		<security:intercept-url pattern="/propos/" access="ROLE_ADMIN,ROLE_USER"/>
+		<security:intercept-url pattern="/propos/**" access="ROLE_ADMIN,ROLE_USER"/>
+		
+		 <security:intercept-url pattern="/api/**" access="ROLE_ADMIN"/>
+		
+		
+		
+		
+		<security:form-login login-page="/"  default-target-url="/home"  authentication-failure-url="/failedlogin" />
+		
+		<security:access-denied-handler error-page="/Access_Denied/401/"/>
+		
+		<security:logout logout-success-url="/" delete-cookies="JSESSIONID"/>
+	</security:http>
+
+	<security:authentication-manager>
+		<security:authentication-provider>
+			<security:password-encoder hash="md5"  /> 
+			<security:jdbc-user-service data-source-ref="dataSource" users-by-username-query="select email,motDePasse,Actived from Admin where email =?"
+			authorities-by-username-query="select a.email ,r.roleName from Admin a,Role r where a.idAdmin=r.idAdmin and a.email =?"/>
+		</security:authentication-provider> 
+	
+	</security:authentication-manager>
+
+
+
+</beans>

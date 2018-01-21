@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="CruptPassword" class="com.app.mvc.util.CryptPassword"></bean>
+
+
+	<bean id="AdminDAO" class="com.app.mvc.dao.impl.AdminDAOImp"></bean>
+	<bean id="AdminService" class="com.app.mvc.services.impl.AdminServiceImpl">
+		<property name="dao" ref="AdminDAO"></property>
+		<property name="cryptMD5" ref="CruptPassword"></property>
+	</bean>
+
+	<bean id="ClasseDAO" class="com.app.mvc.dao.impl.ClasseDAOImpl"></bean>
+	<bean id="ClasseService" class="com.app.mvc.services.impl.ClasseServiceImpl">
+		<property name="dao" ref="ClasseDAO"></property>
+	</bean>
+
+	<bean id="EtudiantDAO" class="com.app.mvc.dao.impl.EtudiantDAOImpl"></bean>
+	<bean id="EtudiantService" class="com.app.mvc.services.impl.EtudiantServiceImpl">
+		<property name="dao" ref="EtudiantDAO"></property>
+	</bean>
+
+	<bean id="NiveauDAO" class="com.app.mvc.dao.impl.NiveauDAOImpl"></bean>
+	<bean id="NiveauService" class="com.app.mvc.services.impl.NiveauServiceImpl">
+		<property name="dao" ref="NiveauDAO"></property>
+	</bean>
+
+	<bean id="ParcoursDAO" class="com.app.mvc.dao.impl.ParcourDAOImpl"></bean>
+	<bean id="ParcoursSerices" class="com.app.mvc.services.impl.ParcoursServiceImpl">
+		<property name="dao" ref="ParcoursDAO"></property>
+	</bean>
+
+	<bean id="FlickrDAO" class="com.app.mvc.dao.impl.FlickrDaoImpl"></bean>
+	<bean id="flickerService" class="com.app.mvc.services.impl.FlickrServiceImpl">
+		<property name="dao" ref="FlickrDAO"></property>
+	</bean>
+
+	<bean id="roleuserdao" class="com.app.mvc.dao.impl.RoleDAOIpm"></bean>
+	<bean id="RoleuserService" class="com.app.mvc.services.impl.ServiceRoleImpl">
+		<property name="dao" ref="roleuserdao"></property>
+	</bean>
+	<!-- i18n locale config -->
+	<mvc:interceptors>
+		<ref bean="localInterceptor" />
+	</mvc:interceptors>
+	<bean id="localInterceptor"
+		class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+		<property name="paramName" value="locale"></property>
+	</bean>
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+		<property name="defaultLocale" value="fr"></property>
+
+	</bean>
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="WEB-INF/messages/applicationresources" />
+		<!-- <property name="defaultEncoding" value="UTF-8" > </property> -->
+	</bean>
+
+</beans>
